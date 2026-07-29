@@ -153,26 +153,12 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   padding-bottom:14px;border-bottom:1px solid var(--edge);margin-bottom:8px;
 }
 
-/* timeline */
-.tl{position:relative;padding-left:26px}
-.tl::before{
-  content:"";position:absolute;left:5px;top:14px;bottom:14px;width:1px;
-  background:linear-gradient(var(--cyan),var(--violet),transparent);
-  transform-origin:top;
-  transform:scaleY(var(--spine,0));
+/* background hand-off to the animated CV */
+.cv-lede{
+  font-size:.9rem;line-height:1.75;color:rgba(201,207,222,.5);
+  max-width:38ch;margin-top:18px;
 }
-.tl-item{position:relative;padding:22px 0}
-.tl-item::before{
-  content:"";position:absolute;left:-26px;top:29px;width:11px;height:11px;
-  border-radius:50%;background:var(--void);border:1px solid var(--cyan);
-  box-shadow:0 0 0 4px var(--void),0 0 16px rgba(110,231,224,.5);
-}
-.tl-when{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--cyan);opacity:.85}
-.tl-what{font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;
-  color:#fff;margin-top:8px;line-height:1.25;letter-spacing:-.01em}
-.tl-where{font-size:.82rem;color:rgba(201,207,222,.5);margin-top:5px}
-.tl-desc{font-size:.82rem;line-height:1.7;color:rgba(201,207,222,.44);margin-top:10px;max-width:44ch}
+.cv-actions{display:flex;flex-wrap:wrap;gap:12px}
 
 /* skills */
 
@@ -411,35 +397,13 @@ footer{
     <div class="cv-grid">
 
       <div>
-        <p class="block-label reveal">Education &amp; experience</p>
-        <div class="tl">
-          <div class="tl-item reveal">
-            <p class="tl-when">In progress — 3rd year</p>
-            <p class="tl-what">B.Sc. Artificial Intelligence</p>
-            <p class="tl-where">Faculty of Artificial Intelligence, AAST — Egypt</p>
-            <p class="tl-desc">Arab Academy for Science, Technology &amp; Maritime Transport. Studying AI alongside building client websites — self-taught on the web side, driven by hands-on execution over theory.</p>
-          </div>
-          <div class="tl-item reveal">
-            <p class="tl-when">Current</p>
-            <p class="tl-what">Freelance web builder</p>
-            <p class="tl-where">Self-employed — Alexandria, Egypt</p>
-            <p class="tl-desc">Fast, animated, AI-optimized websites for brands, built entirely with no-code and AI-assisted tools. Concept to deployment for real clients: UI/UX design, modern animation, and AI automation.</p>
-          </div>
-          <div class="tl-item reveal">
-            <p class="tl-when">Achievement</p>
-            <p class="tl-what">2nd Place — RoboCup Junior Egypt</p>
-            <p class="tl-where">National robotics competition</p>
-            <p class="tl-desc">National-level robotics competitor, with a foundation in design software and rapid, self-directed skill acquisition.</p>
-          </div>
+        <p class="block-label reveal">The full background</p>
+        <p class="cv-lede reveal">Education, experience, certifications and awards live on the
+          animated CV — the whole thing as a page you scroll.</p>
+        <div class="cv-actions reveal">
+          <a class="cv-dl" href="cv.html">Open animated CV</a>
+          <a class="cv-dl" href="assets/Yassen-Hassan-CV.pdf" download="Yassen-Hassan-CV.pdf">Download CV (PDF)</a>
         </div>
-
-        <p class="block-label reveal" style="margin-top:44px">Certifications &amp; training</p>
-        <div class="chips reveal">
-          <span class="chip">Multimedia Diploma</span>
-          <span class="chip">English language courses</span>
-        </div>
-
-        <a class="cv-dl reveal" href="assets/Yassen-Hassan-CV.pdf" download="Yassen-Hassan-CV.pdf">Download CV (PDF)</a>
       </div>
 
       <div>
@@ -732,13 +696,6 @@ if(!reduced){
   gsap.set('.reveal',{y:34});
   gsap.set('.proj',{opacity:0,y:48});
 
-  /* timeline spine draws itself as you scroll through the CV */
-  const spine = document.querySelector('.tl');
-  ScrollTrigger.create({
-    trigger:'.tl', start:'top 80%', end:'bottom 65%', scrub:.8,
-    onUpdate: self => spine.style.setProperty('--spine', self.progress)
-  });
-
   /* skill arcs sweep open, staggered — they empty again above the dial so the
      sweep re-runs on the way back down */
   gsap.utils.toArray('.dial .arc').forEach((el,i)=>{
@@ -800,7 +757,6 @@ if(!reduced){
 
 } else {
   gsap.set(['.reveal','.proj'],{opacity:1});
-  document.querySelector('.tl').style.setProperty('--spine',1);
   document.querySelectorAll('.dial .arc').forEach(el=>{
     el.style.strokeDashoffset = (+el.dataset.full) * (1 - el.dataset.pct/100);
   });
