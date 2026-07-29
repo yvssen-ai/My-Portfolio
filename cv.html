@@ -652,6 +652,9 @@ if(!hasGSAP){
 gsap.registerPlugin(ScrollTrigger);
 
 /* ---------- intro ---------- */
+function runScramble(){
+  document.querySelectorAll('.scramble').forEach((el,i)=>setTimeout(()=>scramble(el), 220+i*220));
+}
 window.addEventListener('load',()=>{
   if(reduced){ gsap.set('.reveal',{opacity:1}); return; }
   /* the hero's .reveal elements are handled by the ScrollTrigger batch below,
@@ -661,17 +664,31 @@ window.addEventListener('load',()=>{
     .from('.mark',{scale:.4,opacity:0,duration:1,ease:'expo.out'})
     .from('nav',{y:-26,opacity:0,duration:.8},'-=.6')
     .from('.scroll-hint',{opacity:0,duration:.8},'-=.3');
-  document.querySelectorAll('.scramble').forEach((el,i)=>setTimeout(()=>scramble(el), 220+i*220));
+  runScramble();
 });
 
 if(!reduced){
   gsap.set('.reveal',{y:34});
 
-  /* generic reveals */
+  /* reveals replay every pass: they animate in from whichever side they enter,
+     and reset once fully off-screen — the reset happens out of sight, so all
+     you ever see is the entrance, in both scroll directions. */
+  const showIn  = b => gsap.to(b,{opacity:1,y:0,duration:.9,stagger:.08,
+                                  ease:'power3.out',overwrite:true,
+                                  clearProps:'transform'});
+  const resetTo = y => b => gsap.to(b,{opacity:0,y,duration:.35,overwrite:true});
   ScrollTrigger.batch('.reveal',{
-    start:'top 90%',
-    onEnter: b => gsap.to(b,{opacity:1,y:0,duration:.9,stagger:.08,ease:'power3.out',
-      clearProps:'transform'})
+    start:'top 90%', end:'bottom 4%',
+    onEnter:     showIn,
+    onEnterBack: showIn,
+    onLeave:     resetTo(-34),
+    onLeaveBack: resetTo(34)
+  });
+
+  /* headline re-scrambles when you come back up to the top */
+  ScrollTrigger.create({
+    trigger:'#top', start:'top 60%', end:'bottom 20%',
+    onEnterBack: runScramble
   });
 
   /* summary lights up word by word as you scroll through it */
@@ -684,16 +701,20 @@ if(!reduced){
     }
   });
 
-  /* stat counters */
+  /* stat counters — re-count on every entrance, from either direction */
   gsap.utils.toArray('.count').forEach(el=>{
     const to = +el.dataset.to;
+    let tw;
+    const run = () => {
+      if(tw) tw.kill();                 // otherwise two counts fight over textContent
+      const o = {v:0};
+      tw = gsap.to(o,{v:to,duration:1.4,ease:'power2.out',
+        onUpdate:()=> el.textContent = String(Math.round(o.v)).padStart(2,'0')});
+    };
+    const zero = () => { if(tw) tw.kill(); el.textContent = '0'; };
     ScrollTrigger.create({
-      trigger:el, start:'top 88%', once:true,
-      onEnter: () => {
-        const o = {v:0};
-        gsap.to(o,{v:to,duration:1.4,ease:'power2.out',
-          onUpdate:()=> el.textContent = String(Math.round(o.v)).padStart(2,'0')});
-      }
+      trigger:el, start:'top 88%', end:'bottom 4%',
+      onEnter:run, onEnterBack:run, onLeave:zero, onLeaveBack:zero
     });
   });
 
@@ -705,8 +726,8 @@ if(!reduced){
     gsap.fromTo(card.querySelectorAll('.chip'),
       {opacity:0, y:14},
       {opacity:1, y:0, duration:.5, stagger:.045, ease:'power2.out',
-       clearProps:'transform',
-       scrollTrigger:{trigger:card, start:'top 82%', toggleActions:'play none none none'}});
+       scrollTrigger:{trigger:card, start:'top 82%',
+                      toggleActions:'restart none restart reverse'}});
   });
 
   /* tools ticker drifts on its own; scrolling fast shoves it along */
@@ -728,11 +749,18 @@ if(!reduced){
     scrollTrigger:{
       trigger:'#work', pin:true, scrub:1, start:'top top',
       end: () => '+=' + (track.scrollWidth - innerWidth + 400),
-      invalidateOnRefresh:true
+      invalidateOnRefresh:true,
+      /* the pin inserts a spacer that pushes everything below it down, so it
+         has to measure before the triggers further down the page do —
+         otherwise they hold positions from the un-pinned layout, fire early,
+         and reset themselves while still on screen. */
+      refreshPriority:1
     }
   });
-  gsap.from('.panel',{y:60,opacity:0,duration:.8,stagger:.1,ease:'power2.out',
-    scrollTrigger:{trigger:'#work',start:'top 70%'}});
+  gsap.fromTo('.panel',{y:60,opacity:0},
+    {y:0,opacity:1,duration:.8,stagger:.1,ease:'power2.out',
+     scrollTrigger:{trigger:'#work',start:'top 70%',
+                    toggleActions:'restart none restart reverse'}});
 
   /* timeline spine draws itself */
   const spine = document.querySelector('.tl');

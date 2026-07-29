@@ -617,6 +617,9 @@ function scramble(el){
 }
 
 /* ---------- intro ---------- */
+function runScramble(){
+  document.querySelectorAll('.scramble').forEach((el,i)=>setTimeout(()=>scramble(el), 250+i*220));
+}
 window.addEventListener('load',()=>{
   if(reduced) return;
   const tl = gsap.timeline({defaults:{ease:'power3.out'}});
@@ -624,7 +627,7 @@ window.addEventListener('load',()=>{
     .from('.hero-sub',{y:24,opacity:0,duration:.9},'-=.35')
     .from('nav',{y:-26,opacity:0,duration:.8},'-=.7')
     .from('.scroll-hint',{opacity:0,duration:.8},'-=.5');
-  document.querySelectorAll('.scramble').forEach((el,i)=>setTimeout(()=>scramble(el), 250+i*220));
+  runScramble();
 });
 
 /* ---------- skills dial (built from this one list) ---------- */
@@ -713,9 +716,18 @@ if(!reduced){
   },0)
   .to('.mark',{opacity:.55,ease:'none'},.5);
 
+  /* reveals replay every pass: they animate in from whichever side they enter,
+     and reset once they are fully off-screen — the reset happens out of sight,
+     so all you ever see is the entrance, in both scroll directions. */
+  const showIn  = (b,d) => gsap.to(b,{opacity:1,y:0,duration:.9,stagger:.09,
+                                      ease:'power3.out',overwrite:true});
+  const resetTo = y => b => gsap.to(b,{opacity:0,y,duration:.35,overwrite:true});
   ScrollTrigger.batch('.reveal',{
-    start:'top 88%',
-    onEnter: b => gsap.to(b,{opacity:1,y:0,duration:.9,stagger:.09,ease:'power3.out'})
+    start:'top 88%', end:'bottom 4%',
+    onEnter:      showIn,
+    onEnterBack:  showIn,
+    onLeave:      resetTo(-34),
+    onLeaveBack:  resetTo(34)
   });
   gsap.set('.reveal',{y:34});
   gsap.set('.proj',{opacity:0,y:48});
@@ -727,22 +739,37 @@ if(!reduced){
     onUpdate: self => spine.style.setProperty('--spine', self.progress)
   });
 
-  /* skill arcs sweep open, staggered, when the dial enters view */
+  /* skill arcs sweep open, staggered — they empty again above the dial so the
+     sweep re-runs on the way back down */
   gsap.utils.toArray('.dial .arc').forEach((el,i)=>{
     const full = +el.dataset.full;
     gsap.to(el,{
       strokeDashoffset: full * (1 - el.dataset.pct/100),
       duration:1.8, ease:'expo.out', delay:i*0.11,
-      scrollTrigger:{trigger:'.dial', start:'top 85%', once:true}
+      scrollTrigger:{trigger:'.dial', start:'top 85%',
+                     toggleActions:'restart none restart reverse'}
     });
   });
 
-  /* project cards rise in pairs — clearProps hands the transform back to CSS
-     afterwards, otherwise the inline y:0 outranks the :hover lift */
+  /* project cards rise in pairs. clearProps hands the transform back to CSS
+     once they land, otherwise the inline y:0 outranks the :hover lift; the
+     reset tween puts a transform back on for the next entrance. */
+  const projIn = b => gsap.to(b,{opacity:1,y:0,duration:1,stagger:.12,
+                                 ease:'power3.out',overwrite:true,
+                                 clearProps:'transform'});
   ScrollTrigger.batch('.proj',{
-    start:'top 85%',
-    onEnter: b => gsap.to(b,{opacity:1,y:0,duration:1,stagger:.12,ease:'power3.out',
-      clearProps:'transform'})
+    start:'top 85%', end:'bottom 4%',
+    onEnter:     projIn,
+    onEnterBack: projIn,
+    onLeave:     b => gsap.to(b,{opacity:0,y:-48,duration:.35,overwrite:true}),
+    onLeaveBack: b => gsap.to(b,{opacity:0,y:48,duration:.35,overwrite:true})
+  });
+
+  /* the headline re-scrambles when you come back up to the top.
+     onEnterBack only — onEnter would fire it a second time on load. */
+  ScrollTrigger.create({
+    trigger:'#hero', start:'top 60%', end:'bottom 20%',
+    onEnterBack: runScramble
   });
 
   /* ruler needle tracks total scroll progress */
