@@ -105,35 +105,13 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   background:linear-gradient(var(--cyan),transparent);animation:drop 2.2s ease-in-out infinite}
 @keyframes drop{0%,100%{opacity:.2;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
 
-/* ---------- pinned horizontal work ---------- */
-#work{position:relative}
-.h-viewport{height:100svh;overflow:hidden;display:flex;align-items:center}
-.h-track{display:flex;gap:26px;padding:0 6vw;will-change:transform}
-.panel{
-  flex:0 0 min(78vw,440px);height:min(66svh,540px);
-  border-radius:22px;padding:30px;position:relative;overflow:hidden;
-  border:1px solid var(--edge);
-  background:linear-gradient(160deg,rgba(167,139,250,.10),rgba(110,231,224,.04) 60%,transparent);
-  backdrop-filter:blur(9px);
-  display:flex;flex-direction:column;justify-content:space-between;
-}
-.panel::before{
-  content:"";position:absolute;inset:0;opacity:.5;
-  background:radial-gradient(120% 80% at 80% 0%,rgba(110,231,224,.22),transparent 60%);
-}
-.panel > *{position:relative}
-.panel h3{
-  font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.5rem,4.5vw,2.1rem);
-  line-height:1.05;color:#fff;letter-spacing:-.02em;
-}
-.panel p{font-size:.85rem;line-height:1.65;color:rgba(201,207,222,.55);margin-top:12px;max-width:30ch}
+/* ---------- project card tags ---------- */
 .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
 .tag{
   font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;
   text-transform:uppercase;padding:5px 10px;border-radius:999px;
   border:1px solid var(--edge);color:rgba(201,207,222,.7);
 }
-.idx{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--cyan)}
 
 /* ---------- capabilities ---------- */
 #cap{padding:140px 0 120px}
@@ -353,45 +331,6 @@ footer{
     <h1><span class="scramble" data-text="Yassen's">Yassen's</span><br><span class="grad scramble" data-text="Portfolio">Portfolio</span></h1>
     <p class="hero-sub"> Hello! I'm Yassen, I'm a student in the faculty of AI in AAST and this is my portfolio where you can see all my projects that i've done.</p>
     <p class="scroll-hint">Scroll</p>
-  </div>
-</section>
-
-<section id="work">
-  <div class="h-viewport">
-    <div class="h-track">
-      <article class="panel">
-        <div><p class="idx">01 / Immersive</p></div>
-        <div>
-          <h3>Deep Field</h3>
-          <p>A particle-driven product launch that renders 40,000 points at 60fps on a mid-range phone.</p>
-          <div class="tags"><span class="tag">WebGL</span><span class="tag">Three.js</span><span class="tag">GSAP</span></div>
-        </div>
-      </article>
-      <article class="panel">
-        <div><p class="idx">02 / Commerce</p></div>
-        <div>
-          <h3>Halo Goods</h3>
-          <p>Storefront with scroll-scrubbed product reveals. Checkout in under nine seconds, median.</p>
-          <div class="tags"><span class="tag">Stripe</span><span class="tag">Supabase</span><span class="tag">Motion</span></div>
-        </div>
-      </article>
-      <article class="panel">
-        <div><p class="idx">03 / Editorial</p></div>
-        <div>
-          <h3>Signal Index</h3>
-          <p>A research archive where the navigation is the data — 1,200 entries, one continuous canvas.</p>
-          <div class="tags"><span class="tag">Canvas</span><span class="tag">Search</span><span class="tag">CMS</span></div>
-        </div>
-      </article>
-      <article class="panel">
-        <div><p class="idx">04 / Brand</p></div>
-        <div>
-          <h3>Northwind</h3>
-          <p>Identity site built around one gesture: the logo unwinds into every section divider.</p>
-          <div class="tags"><span class="tag">SVG</span><span class="tag">ScrollTrigger</span><span class="tag">Type</span></div>
-        </div>
-      </article>
-    </div>
   </div>
 </section>
 
@@ -774,25 +713,6 @@ if(!reduced){
   },0)
   .to('.mark',{opacity:.55,ease:'none'},.5);
 
-  const track = document.querySelector('.h-track');
-  gsap.to(track,{
-    x: () => -(track.scrollWidth - innerWidth + 40),
-    ease:'none',
-    scrollTrigger:{
-      trigger:'#work',
-      pin:true,
-      scrub:1,
-      start:'top top',
-      end: () => '+=' + (track.scrollWidth - innerWidth + 400),
-      invalidateOnRefresh:true
-    }
-  });
-
-  gsap.utils.toArray('.panel').forEach(p=>{
-    gsap.from(p,{y:60,opacity:0,duration:.8,ease:'power2.out',
-      scrollTrigger:{trigger:'#work',start:'top 70%'}});
-  });
-
   ScrollTrigger.batch('.reveal',{
     start:'top 88%',
     onEnter: b => gsap.to(b,{opacity:1,y:0,duration:.9,stagger:.09,ease:'power3.out'})
@@ -837,7 +757,7 @@ if(!reduced){
 
   /* each section owns an accent colour — headings, needle and eyebrows shift to it */
   const ACCENTS = {
-    hero:'#6EE7E0', work:'#A78BFA', cap:'#F5C97B',
+    hero:'#6EE7E0', cap:'#F5C97B',
     projects:'#7DE28B', cv:'#7AB8F5', contact:'#6EE7E0'
   };
   Object.entries(ACCENTS).forEach(([id,color])=>{
