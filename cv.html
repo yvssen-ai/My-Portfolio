@@ -124,6 +124,18 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
 
 /* ---------- summary: word-by-word ---------- */
 #summary{padding:120px 0 110px}
+
+/* On a phone the hero content is far shorter than the viewport, so forcing
+   100svh and centring it left a large dead band under the scroll cue — the
+   hero's own slack, plus its bottom padding, plus the summary's top padding.
+   Below this width the hero sizes to its content instead, which also lets
+   the next heading peek in and show there is more to scroll. */
+@media(max-width:760px){
+  #top{min-height:auto;padding:146px 0 44px}
+  .scroll-hint{margin-top:36px}
+  .scroll-hint::after{height:30px}
+  #summary{padding:62px 0 88px}
+}
 .statement{
   font-family:'Syne',sans-serif;font-weight:700;
   font-size:clamp(1.25rem,3.6vw,2.4rem);line-height:1.34;
