@@ -178,12 +178,16 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
 .ticker-row{display:flex;width:max-content;will-change:transform}
 /* trailing padding rather than flex gap, so two identical passes tile
    exactly and xPercent:-50 loops without a seam */
+/* every tool glows with the same iris gradient — the drop-shadow has to sit
+   on the element, because text-shadow paints under transparent clipped text
+   and would never show through */
 .ticker-row span{
   font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.1rem,3.4vw,1.9rem);
-  text-transform:uppercase;letter-spacing:-.01em;color:rgba(255,255,255,.13);
+  text-transform:uppercase;letter-spacing:-.01em;
   white-space:nowrap;padding-right:34px;
+  background:var(--iris);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 16px rgba(110,231,224,.45)) drop-shadow(0 0 34px rgba(167,139,250,.28));
 }
-.ticker-row span.hot{background:var(--iris);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* ---------- pinned project panels ---------- */
 #work{position:relative}
@@ -495,43 +499,106 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasGSAP = typeof window.gsap !== 'undefined';
 if(!hasGSAP) document.documentElement.classList.add('no-gsap');
 
-/* ---------- ambient bokeh field ---------- */
+/* ---------- ambient field: drifting, rotating YS monograms ----------
+   each mark is drawn once into an offscreen sprite (ring + glyph + glow),
+   then blitted rotated — far cheaper than re-stroking text every frame.
+   depth drives parallax against scroll, so the field has real layers. */
 (function(){
   const c = document.getElementById('field'), ctx = c.getContext('2d');
-  let w,h,dots=[];
-  const hues=['110,231,224','167,139,250','245,201,123'];
+  const TINTS = ['#6EE7E0','#A78BFA','#F5C97B'];
+  const SPRITE = 128;
+  let w,h,dpr=1,marks=[],sprites=[],kick=0,lastY=0;
+
+  function makeSprite(color){
+    const s = SPRITE;
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = s;
+    const x = cv.getContext('2d');
+    x.translate(s/2,s/2);
+    x.globalAlpha = .5;
+    x.strokeStyle = color; x.lineWidth = s*.025;
+    x.beginPath(); x.arc(0,0,s*.40,0,6.2832); x.stroke();
+    x.globalAlpha = 1;
+    x.font = `800 ${Math.round(s*.34)}px Syne, sans-serif`;
+    x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.shadowColor = color; x.shadowBlur = s*.14;
+    x.fillStyle = color;
+    x.fillText('YS', 0, s*.02);
+    return cv;
+  }
+  const build = () => sprites = TINTS.map(makeSprite);
+
   function size(){
-    w=c.width=innerWidth*devicePixelRatio; h=c.height=innerHeight*devicePixelRatio;
-    c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px';
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = c.width  = innerWidth  * dpr;
+    h = c.height = innerHeight * dpr;
+    c.style.width = innerWidth+'px'; c.style.height = innerHeight+'px';
   }
   function seed(){
-    const n = innerWidth<700?70:150;
-    dots=Array.from({length:n},()=>({
-      x:Math.random()*w, y:Math.random()*h,
-      r:(Math.random()*3.4+.6)*devicePixelRatio,
-      vy:-(Math.random()*.22+.05)*devicePixelRatio,
-      vx:(Math.random()-.5)*.14*devicePixelRatio,
-      a:Math.random()*.5+.12,
-      c:hues[(Math.random()*hues.length)|0]
-    }));
+    const n = innerWidth < 700 ? 16 : 30;
+    marks = Array.from({length:n},()=>{
+      const t = (Math.random()*TINTS.length)|0;
+      return {
+        x: Math.random()*w, y: Math.random()*h,
+        size:(Math.random()*46+18)*dpr,
+        rot: Math.random()*6.2832,
+        spin:(Math.random()-.5)*.005,
+        vx:(Math.random()-.5)*.10*dpr,
+        vy:-(Math.random()*.16+.04)*dpr,
+        a: Math.random()*.30+.13,
+        depth: Math.random()*.45+.12,
+        tint: t
+      };
+    });
   }
-  function draw(){
+  function paint(){
     ctx.clearRect(0,0,w,h);
-    ctx.globalCompositeOperation='lighter';
-    for(const d of dots){
-      d.y+=d.vy; d.x+=d.vx;
-      if(d.y< -20){ d.y=h+20; d.x=Math.random()*w; }
-      const g=ctx.createRadialGradient(d.x,d.y,0,d.x,d.y,d.r*4);
-      g.addColorStop(0,`rgba(${d.c},${d.a})`);
-      g.addColorStop(1,`rgba(${d.c},0)`);
-      ctx.fillStyle=g;
-      ctx.beginPath(); ctx.arc(d.x,d.y,d.r*4,0,6.284); ctx.fill();
+    ctx.globalCompositeOperation = 'lighter';
+    const pad  = 140*dpr;
+    const span = h + pad*2;
+    const sy   = (window.scrollY || window.pageYOffset || 0) * dpr;
+    for(const m of marks){
+      let y = (m.y - sy*m.depth) % span;
+      if(y < 0) y += span;
+      y -= pad;
+      ctx.save();
+      ctx.globalAlpha = m.a;
+      ctx.translate(m.x, y);
+      ctx.rotate(m.rot);
+      ctx.drawImage(sprites[m.tint], -m.size/2, -m.size/2, m.size, m.size);
+      ctx.restore();
     }
-    requestAnimationFrame(draw);
   }
-  size(); seed();
-  if(!reduced) draw();
-  addEventListener('resize',()=>{size();seed();});
+  function step(){
+    const pad = 140*dpr;
+    for(const m of marks){
+      m.rot += m.spin + kick*m.depth;
+      m.x += m.vx; m.y += m.vy;
+      if(m.x < -pad) m.x = w + pad;
+      if(m.x >  w + pad) m.x = -pad;
+    }
+    kick *= .93;
+    paint();
+    requestAnimationFrame(step);
+  }
+
+  build(); size(); seed();
+  if(reduced) paint(); else step();
+
+  /* scrolling spins them a little harder, then it settles */
+  lastY = window.scrollY || 0;
+  addEventListener('scroll',()=>{
+    const y = window.scrollY || 0;
+    kick += (y - lastY) * 0.00008;
+    kick = Math.max(-.05, Math.min(.05, kick));
+    lastY = y;
+  },{passive:true});
+
+  addEventListener('resize',()=>{size();seed();if(reduced)paint();});
+  /* Syne arrives after first paint — redraw the sprites once it has */
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>{ build(); if(reduced) paint(); });
+  }
 })();
 
 /* ---------- text scramble ---------- */
@@ -573,7 +640,7 @@ statement.innerHTML = WORDS.map(w=>`<span class="w">${w}</span>`).join(' ');
   // two passes so the loop can wrap seamlessly
   let html='';
   for(let pass=0; pass<2; pass++){
-    html += TOOLS.map((t,i)=>`<span class="${i%4===0?'hot':''}">${t}</span>`).join('');
+    html += TOOLS.map(t=>`<span>${t}</span>`).join('');
   }
   row.innerHTML = html;
 })();
