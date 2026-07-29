@@ -144,7 +144,10 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   display:flex;align-items:baseline;gap:18px;
   padding:26px 6px;border-top:1px solid var(--edge);
   cursor:pointer;position:relative;transition:padding-left .45s cubic-bezier(.16,1,.3,1);
+  text-decoration:none;color:inherit;
 }
+.cap-row:focus-visible{padding-left:22px;outline:none}
+.cap-row:focus-visible .name{background:var(--iris);-webkit-background-clip:text;background-clip:text;color:transparent}
 .cap-row:last-child{border-bottom:1px solid var(--edge)}
 .cap-row:hover{padding-left:22px}
 .cap-row .num{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(201,207,222,.35);letter-spacing:.16em;min-width:26px}
@@ -396,13 +399,10 @@ footer{
   <div class="wrap">
     <div class="cap-head reveal">
       <h2>What we make</h2>
-      <p class="eyebrow">Five disciplines</p>
+      <p class="eyebrow">Two ways in</p>
     </div>
-    <div class="cap-row reveal"><span class="num">01</span><span class="name">Websites</span><span class="note">Marketing sites, storefronts, launches</span></div>
-    <div class="cap-row reveal"><span class="num">02</span><span class="name">Installations</span><span class="note">Screens, kiosks, live events</span></div>
-    <div class="cap-row reveal"><span class="num">03</span><span class="name">XR / AI</span><span class="note">Spatial interfaces and generative systems</span></div>
-    <div class="cap-row reveal"><span class="num">04</span><span class="name">Multiplayer</span><span class="note">Shared, real-time browser spaces</span></div>
-    <div class="cap-row reveal"><span class="num">05</span><span class="name">Games</span><span class="note">Playable brand moments on the web</span></div>
+    <a class="cap-row reveal" href="#projects"><span class="num">01</span><span class="name">Websites</span><span class="note">Brand sites, storefronts and launches</span></a>
+    <a class="cap-row reveal" href="cv.html"><span class="num">02</span><span class="name">Animated CV</span><span class="note">The full background, as a page you scroll</span></a>
   </div>
 </section>
 
