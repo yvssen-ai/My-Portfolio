@@ -211,6 +211,25 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
 .proj-body h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.25rem;color:#fff;letter-spacing:-.01em}
 .proj-body p{font-size:.82rem;line-height:1.65;color:rgba(201,207,222,.5);margin-top:9px}
 
+/* the full-stack project gets a solid accent pill and a warmer border, so it
+   reads as the heavier piece of work rather than one more card in the grid */
+.flag{
+  display:inline-block;margin-bottom:14px;
+  /* the feature card's body is a flex column, where a stretch-aligned item
+     would run the full width — this keeps the pill the width of its text */
+  align-self:flex-start;
+  font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;padding:6px 13px;border-radius:999px;
+  background:var(--iris);color:var(--void);
+  box-shadow:0 0 26px rgba(110,231,224,.28);
+}
+.proj--feature{border-color:rgba(110,231,224,.3)}
+.proj--feature .proj-shot::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 60px rgba(110,231,224,.14);
+}
+
 /* live / source links inside each card */
 .proj-links{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
 .proj-links a{
@@ -379,18 +398,19 @@ footer{
         </div>
       </article>
 
-      <article class="proj">
-        <a class="proj-shot" href="https://monoplay-board.vercel.app" target="_blank" rel="noopener"
-           aria-label="Visit the Monoplay site">
-          <img src="assets/shots/monoplay.jpg" alt="Monoplay board games cafe site shown inside a CSS arcade cabinet frame." loading="lazy" width="1536" height="960">
+      <article class="proj proj--feature">
+        <a class="proj-shot" href="https://solis-azure.vercel.app" target="_blank" rel="noopener"
+           aria-label="Visit the Solis site">
+          <img src="assets/shots/solis.jpg" alt="Solis homepage — deep green hero reading Your sun will rise from here, beside a line-art sun." loading="lazy" width="1920" height="1200">
         </a>
         <div class="proj-body">
-          <h3>Monoplay</h3>
-          <p>A board games café in Egypt, built mobile-first in plain HTML, CSS and JavaScript — no framework, no build step. Arcade design system, scroll reveals and counters, installable as a PWA. On desktop the whole site sits framed inside a CSS arcade cabinet.</p>
-          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PWA</span></div>
+          <span class="flag">Full stack</span>
+          <h3>Solis</h3>
+          <p>A café and bakery site that actually takes orders. React and GSAP on the front; Supabase Postgres behind it — the menu is served from the database, and checkout runs through one server-side function, so the browser sends nothing but ids and quantities and every price is read server-side. Orders are tracked by a receipt token instead of an account, and money is stored in integer piastres so no bill is ever off by a rounding error.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">Vite</span><span class="tag">GSAP</span><span class="tag">Supabase</span><span class="tag">PostgreSQL</span><span class="tag">RLS</span></div>
           <div class="proj-links">
-            <a href="https://monoplay-board.vercel.app" target="_blank" rel="noopener">Live site</a>
-            <a href="https://github.com/yvssen-ai/monoplay-board" target="_blank" rel="noopener">Source</a>
+            <a href="https://solis-azure.vercel.app" target="_blank" rel="noopener">Live site</a>
+            <a href="https://github.com/yvssen-ai/Solis" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
       </article>
