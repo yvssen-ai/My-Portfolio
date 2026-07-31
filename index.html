@@ -224,6 +224,13 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   background:var(--iris);color:var(--void);
   box-shadow:0 0 26px rgba(110,231,224,.28);
 }
+/* Same pill, different fill. "Full stack" is a capability and "In development"
+   is a status, so they read as related but not interchangeable — and Solis
+   keeps the brighter one, which is what makes it the feature. */
+.flag--wip{
+  background:linear-gradient(110deg,#F5C97B 0%,#E9A86F 100%);
+  box-shadow:0 0 22px rgba(245,201,123,.24);
+}
 .proj--feature{border-color:rgba(110,231,224,.3)}
 .proj--feature .proj-shot::after{
   content:"";position:absolute;inset:0;pointer-events:none;
@@ -241,13 +248,16 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   border-color:rgba(110,231,224,.5);color:#fff;background:rgba(110,231,224,.08)
 }
 
-/* with an odd number of cards the last one runs the full width */
+/* The feature card runs the full width and lays out side-by-side, wherever it
+   sits in the grid. This used to key off :last-child:nth-child(odd), which was
+   only ever a proxy for "the one being featured" — and stopped being true the
+   moment the feature moved to the top of the list. */
 @media(min-width:720px){
-  .proj-grid > .proj:last-child:nth-child(odd){
+  .proj-grid > .proj--feature{
     grid-column:1/-1;display:grid;grid-template-columns:1.05fr .95fr;align-items:stretch;
   }
-  .proj-grid > .proj:last-child:nth-child(odd) .proj-shot{aspect-ratio:auto;height:100%}
-  .proj-grid > .proj:last-child:nth-child(odd) .proj-body{
+  .proj-grid > .proj--feature .proj-shot{aspect-ratio:auto;height:100%}
+  .proj-grid > .proj--feature .proj-body{
     padding:30px 30px 34px;display:flex;flex-direction:column;justify-content:center;
   }
 }
@@ -366,12 +376,30 @@ footer{
     <h2 class="cv-title reveal">Websites<br>I've built</h2>
     <div class="proj-grid">
 
+      <article class="proj proj--feature">
+        <a class="proj-shot" href="https://solis-azure.vercel.app" target="_blank" rel="noopener"
+           aria-label="Visit the Solis site">
+          <img src="assets/shots/solis.jpg" alt="Solis homepage — deep green hero reading Your sun will rise from here, beside a line-art sun." loading="lazy" width="1920" height="1200">
+        </a>
+        <div class="proj-body">
+          <span class="flag">Full stack</span>
+          <h3>Solis</h3>
+          <p>A café and bakery site that actually takes orders. React and GSAP on the front; Supabase Postgres behind it — the menu is served from the database, and checkout runs through one server-side function, so the browser sends nothing but ids and quantities and every price is read server-side. Orders are tracked by a receipt token instead of an account, and money is stored in integer piastres so no bill is ever off by a rounding error.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">Vite</span><span class="tag">GSAP</span><span class="tag">Supabase</span><span class="tag">PostgreSQL</span><span class="tag">RLS</span></div>
+          <div class="proj-links">
+            <a href="https://solis-azure.vercel.app" target="_blank" rel="noopener">Live site</a>
+            <a href="https://github.com/yvssen-ai/Solis" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+
       <article class="proj">
         <a class="proj-shot" href="https://sooki-henna.vercel.app" target="_blank" rel="noopener"
            aria-label="Visit the Sooki site">
           <img src="assets/shots/sooki.jpg" alt="Sooki homepage — black and gold hero reading Legacy. Power. Timeless." loading="lazy" width="1920" height="1200">
         </a>
         <div class="proj-body">
+          <span class="flag flag--wip">In development</span>
           <h3>Sooki</h3>
           <p>A luxury Egyptian accessories storefront — black and gold, cinematic, mobile-first. Landing experience, collection browsing, and a "design your own" configurator for custom pieces.</p>
           <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">Framer Motion</span></div>
@@ -388,29 +416,13 @@ footer{
           <img src="assets/shots/what-the-crust.jpg" alt="What The Crust homepage — hero reading Great days deserve great pizza." loading="lazy" width="1920" height="1200">
         </a>
         <div class="proj-body">
+          <span class="flag flag--wip">In development</span>
           <h3>What The Crust</h3>
           <p>Marketing site for a stone-fired pizza brand. Animated hero with ingredient fly-ins, a scroll-revealed menu, and an interactive builder where the price and preview update live as you stack toppings.</p>
           <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Tailwind v4</span><span class="tag">Framer Motion</span></div>
           <div class="proj-links">
             <a href="https://what-the-crust-t974.vercel.app" target="_blank" rel="noopener">Live site</a>
             <a href="https://github.com/yvssen-ai/what-the-crust" target="_blank" rel="noopener">Source</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="proj proj--feature">
-        <a class="proj-shot" href="https://solis-azure.vercel.app" target="_blank" rel="noopener"
-           aria-label="Visit the Solis site">
-          <img src="assets/shots/solis.jpg" alt="Solis homepage — deep green hero reading Your sun will rise from here, beside a line-art sun." loading="lazy" width="1920" height="1200">
-        </a>
-        <div class="proj-body">
-          <span class="flag">Full stack</span>
-          <h3>Solis</h3>
-          <p>A café and bakery site that actually takes orders. React and GSAP on the front; Supabase Postgres behind it — the menu is served from the database, and checkout runs through one server-side function, so the browser sends nothing but ids and quantities and every price is read server-side. Orders are tracked by a receipt token instead of an account, and money is stored in integer piastres so no bill is ever off by a rounding error.</p>
-          <div class="tags"><span class="tag">React</span><span class="tag">Vite</span><span class="tag">GSAP</span><span class="tag">Supabase</span><span class="tag">PostgreSQL</span><span class="tag">RLS</span></div>
-          <div class="proj-links">
-            <a href="https://solis-azure.vercel.app" target="_blank" rel="noopener">Live site</a>
-            <a href="https://github.com/yvssen-ai/Solis" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
       </article>
