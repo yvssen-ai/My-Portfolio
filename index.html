@@ -156,7 +156,11 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   line-height:1;margin:14px 0 54px;
 }
 .cv-grid{display:grid;gap:56px}
-@media(min-width:880px){.cv-grid{grid-template-columns:1.15fr .85fr;gap:72px}}
+/* The dial column is roughly twice the height of the chips beside it. Centring
+   the shorter one stops it hanging from the top edge with a void beneath, and
+   equal columns give the chips less width so they wrap into a taller block —
+   between them the two sides read as a pair rather than one long, one stub. */
+@media(min-width:880px){.cv-grid{grid-template-columns:1fr 1fr;gap:72px;align-items:center}}
 .block-label{
   font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.24em;
   text-transform:uppercase;color:rgba(201,207,222,.4);
@@ -320,6 +324,19 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   background:rgba(110,231,224,.05);transition:.4s cubic-bezier(.16,1,.3,1);
 }
 .mail:hover,.mail:focus-visible{background:rgba(110,231,224,.14);box-shadow:0 0 48px rgba(110,231,224,.22);color:#fff}
+/* Two ways to reach him, side by side and wrapping on a phone. The margin that
+   used to sit on the single button moves to the row, or the two pills would
+   each carry it and sit at different heights once they wrap. */
+.contact-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
+.contact-row .mail{margin-top:0}
+/* WhatsApp keeps its own green so it is recognisable at a glance */
+.mail--wa{
+  border-color:rgba(37,211,102,.34);
+  background:rgba(37,211,102,.06);
+}
+.mail--wa:hover,.mail--wa:focus-visible{
+  background:rgba(37,211,102,.15);box-shadow:0 0 48px rgba(37,211,102,.22);
+}
 footer{
   margin-top:90px;padding:24px 0;border-top:1px solid var(--edge);
   display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
@@ -345,7 +362,7 @@ footer{
 <nav>
   <a href="#projects">Work</a>
   <span class="rule"></span>
-  <a href="#cv">CV</a>
+  <a href="cv.html">CV</a>
   <span class="rule"></span>
   <a href="#contact">Contact</a>
 </nav>
@@ -433,23 +450,12 @@ footer{
 
 <section id="cv">
   <div class="wrap">
-    <p class="eyebrow reveal">Background</p>
-    <h2 class="cv-title reveal">Study,<br>skills, work</h2>
+    <p class="eyebrow reveal">What I work with</p>
+    <h2 class="cv-title reveal">Skills<br>&amp; tools</h2>
 
     <div class="cv-grid">
 
       <div>
-        <p class="block-label reveal">The full background</p>
-        <p class="cv-lede reveal">Education, experience, certifications and awards live on the
-          animated CV — the whole thing as a page you scroll.</p>
-        <div class="cv-actions reveal">
-          <a class="cv-dl" href="cv.html">Open animated CV</a>
-          <a class="cv-dl" href="assets/Yassen-Hassan-CV.pdf" download="Yassen-Hassan-CV.pdf">Download CV (PDF)</a>
-        </div>
-      </div>
-
-      <div>
-        <p class="block-label reveal">Skills</p>
         <div class="dial-wrap reveal">
           <svg class="dial" viewBox="0 0 300 300" aria-hidden="true">
             <g id="dial-ticks"></g>
@@ -459,12 +465,15 @@ footer{
           <div class="dial-center"><b>Skills</b></div>
         </div>
         <div class="legend reveal" id="legend"></div>
+      </div>
 
-        <p class="block-label reveal" style="margin-top:44px">Tools</p>
+      <div>
+        <p class="block-label reveal">Tools</p>
         <div class="chips reveal">
           <span class="chip">Bolt.new</span><span class="chip">v0.dev</span>
           <span class="chip">Cursor</span><span class="chip">GSAP</span>
           <span class="chip">Three.js</span><span class="chip">LottieFiles</span>
+          <span class="chip">Supabase</span><span class="chip">PostgreSQL</span>
           <span class="chip">Figma</span><span class="chip">Canva</span>
           <span class="chip">Photoshop</span><span class="chip">Illustrator</span>
           <span class="chip">Vercel</span><span class="chip">Netlify</span>
@@ -486,7 +495,12 @@ footer{
   <div class="wrap">
     <p class="eyebrow reveal">Start something</p>
     <h2 class="reveal" style="margin-top:20px">Tell us what<br>you're building</h2>
-    <a class="mail reveal" href="mailto:hello@yassen.studio">hello@yassen.studio</a>
+    <div class="contact-row reveal">
+      <a class="mail" href="mailto:yassenhassan151@gmail.com">yassenhassan151@gmail.com</a>
+      <a class="mail mail--wa" href="https://wa.me/201228507157" target="_blank" rel="noopener">
+        WhatsApp +20 122 850 7157
+      </a>
+    </div>
     <footer>
       <span>Yassen's Portfolio</span>
       <span>Available for new work</span>
@@ -638,11 +652,12 @@ window.addEventListener('load',()=>{
 
 /* ---------- skills dial (built from this one list) ---------- */
 const SKILLS = [
-  {name:'AI & no-code build', pct:95, color:'#6EE7E0'},
-  {name:'HTML & CSS',         pct:92, color:'#A78BFA'},
-  {name:'GSAP & animation',   pct:90, color:'#F5C97B'},
-  {name:'JavaScript',         pct:82, color:'#7DE28B'},
-  {name:'UI design & Adobe',  pct:85, color:'#7AB8F5'}
+  {name:'AI & no-code build',    pct:95, color:'#6EE7E0'},
+  {name:'HTML & CSS',            pct:92, color:'#A78BFA'},
+  {name:'GSAP & animation',      pct:90, color:'#F5C97B'},
+  {name:'Backend & full stack',  pct:85, color:'#F58A8A'},
+  {name:'JavaScript',            pct:82, color:'#7DE28B'},
+  {name:'UI design & Adobe',     pct:85, color:'#7AB8F5'}
 ];
 
 (function buildDial(){

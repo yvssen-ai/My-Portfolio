@@ -263,6 +263,11 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
 .mail:hover,.mail:focus-visible,.cv-dl:hover,.cv-dl:focus-visible{
   background:rgba(110,231,224,.14);box-shadow:0 0 48px rgba(110,231,224,.22);color:#fff
 }
+/* WhatsApp keeps its own green so it is recognisable at a glance */
+.mail--wa{border-color:rgba(37,211,102,.34);background:rgba(37,211,102,.06)}
+.mail--wa:hover,.mail--wa:focus-visible{
+  background:rgba(37,211,102,.15);box-shadow:0 0 48px rgba(37,211,102,.22)
+}
 footer{
   margin-top:86px;padding:24px 0;border-top:1px solid var(--edge);
   display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
@@ -375,6 +380,17 @@ footer a:hover{color:var(--cyan)}
 
       <article class="skill reveal">
         <p class="n">03</p>
+        <h3>Backend &amp; full stack</h3>
+        <div class="chips">
+          <span class="chip">Supabase</span><span class="chip">PostgreSQL</span>
+          <span class="chip">Row-level security</span><span class="chip">SQL functions</span>
+          <span class="chip">REST APIs</span><span class="chip">Webhooks</span>
+          <span class="chip">Payment integration</span>
+        </div>
+      </article>
+
+      <article class="skill reveal">
+        <p class="n">04</p>
         <h3>Design tools</h3>
         <div class="chips">
           <span class="chip">Figma</span><span class="chip">Canva</span>
@@ -383,7 +399,7 @@ footer a:hover{color:var(--cyan)}
       </article>
 
       <article class="skill reveal">
-        <p class="n">04</p>
+        <p class="n">05</p>
         <h3>Hosting &amp; deployment</h3>
         <div class="chips">
           <span class="chip">Vercel</span><span class="chip">Netlify</span><span class="chip">GitHub</span>
@@ -391,7 +407,7 @@ footer a:hover{color:var(--cyan)}
       </article>
 
       <article class="skill reveal">
-        <p class="n">05</p>
+        <p class="n">06</p>
         <h3>Client &amp; workflow</h3>
         <div class="chips">
           <span class="chip">Wave</span><span class="chip">Loom</span><span class="chip">Calendly</span>
@@ -400,7 +416,7 @@ footer a:hover{color:var(--cyan)}
       </article>
 
       <article class="skill reveal">
-        <p class="n">06</p>
+        <p class="n">07</p>
         <h3>Languages</h3>
         <div class="chips">
           <span class="chip">Arabic — Native</span><span class="chip">English — Fluent</span>
@@ -448,6 +464,7 @@ footer a:hover{color:var(--cyan)}
     <h2 class="reveal" style="margin-top:18px">Let's build<br>your site</h2>
     <div class="cta-row reveal">
       <a class="mail" href="mailto:yassenhassan151@gmail.com">yassenhassan151@gmail.com</a>
+      <a class="mail mail--wa" href="https://wa.me/201228507157" target="_blank" rel="noopener">WhatsApp</a>
       <a class="cv-dl" href="assets/Yassen-Hassan-CV.pdf" download="Yassen-Hassan-CV.pdf">Download CV (PDF)</a>
     </div>
 
