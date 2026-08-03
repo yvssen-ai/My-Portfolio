@@ -241,24 +241,20 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   box-shadow:inset 0 0 60px rgba(110,231,224,.14);
 }
 
-/* ---------- workflow diagram, in place of a screenshot ---------- */
+/* ---------- the n8n canvas, in place of a screenshot ---------- */
 #automation{padding:0 0 40px}
 .flow-shot{
-  display:grid;place-items:center;padding:22px;
+  display:grid;place-items:center;padding:18px;
   background:radial-gradient(120% 100% at 30% 0%,rgba(167,139,250,.16),rgba(5,6,10,.9) 70%);
 }
-.flow{width:100%;height:auto;max-height:100%}
-.fl-line path{fill:none;stroke:rgba(201,207,222,.32);stroke-width:1.5}
-.fl-node rect{fill:rgba(201,207,222,.05);stroke:var(--edge);stroke-width:1}
-.fl-node text{
-  fill:rgba(201,207,222,.78);font-family:'JetBrains Mono',monospace;font-size:12px;
-  letter-spacing:.06em;text-anchor:middle;
+/* The canvas is 2.38:1 against a 16:10 slot, so cover — the default for a
+   project shot — would crop the outer nodes clean off. Contain keeps the whole
+   graph, which is the entire point of showing it. */
+.flow-shot img{
+  width:100%;height:100%;object-fit:contain;object-position:center;
+  border-radius:8px;
 }
-.fl-node--alt rect{stroke:rgba(167,139,250,.4)}
-.fl-node--tool rect{stroke:rgba(245,201,123,.34);fill:rgba(245,201,123,.05)}
-.fl-node--agent rect{stroke:rgba(110,231,224,.5);fill:rgba(110,231,224,.07)}
-.fl-title{font-family:'Syne',sans-serif!important;font-size:22px!important;fill:#fff!important;font-weight:700}
-.fl-sub{font-size:11px!important;fill:rgba(201,207,222,.55)!important}
+.proj:hover .flow-shot img{transform:none}
 
 /* live / source links inside each card */
 .proj-links{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
@@ -475,53 +471,14 @@ footer{
 
     <div class="proj-grid">
       <article class="proj proj--feature">
-        <!-- No screenshot: this has no front end. The diagram is the product,
-             so the card shows the actual shape of the workflow instead of
-             dressing an automation up as a website. -->
-        <div class="proj-shot flow-shot" aria-hidden="true">
-          <svg class="flow" viewBox="0 0 640 400" role="img">
-            <defs>
-              <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5"
-                      markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 L10 5 L0 10 z" fill="rgba(201,207,222,.45)"/>
-              </marker>
-            </defs>
-            <g class="fl-line" marker-end="url(#arw)">
-              <path d="M118 92 H250"/>
-              <path d="M320 128 V196"/>
-              <path d="M392 212 H470"/>
-              <path d="M392 252 H470"/>
-              <path d="M392 292 H470"/>
-              <path d="M320 328 V368"/>
-            </g>
-            <g class="fl-node">
-              <rect x="18" y="70" width="100" height="44" rx="22"/>
-              <text x="68" y="97">Message in</text>
-            </g>
-            <g class="fl-node fl-node--alt">
-              <rect x="250" y="70" width="140" height="44" rx="12"/>
-              <text x="320" y="97">Is it text?</text>
-            </g>
-            <g class="fl-node fl-node--agent">
-              <rect x="228" y="196" width="184" height="132" rx="16"/>
-              <text x="320" y="238" class="fl-title">AI agent</text>
-              <text x="320" y="268" class="fl-sub">Gemini Flash-Lite</text>
-              <text x="320" y="294" class="fl-sub">memory per contact</text>
-            </g>
-            <g class="fl-node fl-node--tool">
-              <rect x="470" y="194" width="152" height="36" rx="18"/>
-              <text x="546" y="217">Send portfolio</text>
-              <rect x="470" y="234" width="152" height="36" rx="18"/>
-              <text x="546" y="257">Log lead → Sheets</text>
-              <rect x="470" y="274" width="152" height="36" rx="18"/>
-              <text x="546" y="297">Notify me</text>
-            </g>
-            <g class="fl-node">
-              <rect x="248" y="368" width="144" height="30" rx="15"/>
-              <text x="320" y="388">Reply, unprompted</text>
-            </g>
-          </svg>
-        </div>
+        <!-- The n8n canvas itself, rather than a screenshot of a web page:
+             this project has no front end, and the graph is the deliverable. -->
+        <a class="proj-shot flow-shot" href="https://github.com/yvssen-ai/AI-WhatsApp-Receptionist"
+           target="_blank" rel="noopener" aria-label="See the AI Receptionist workflow on GitHub">
+          <img src="assets/shots/ai-receptionist-workflow.jpg"
+               alt="The n8n canvas: a Telegram trigger feeding a text check, then an AI Business Assistant agent wired to a Gemini chat model, conversation memory, and the Send_Portfolio, Log_Lead and Notify_Me tools, ending at Reply to Customer."
+               loading="lazy" width="1280" height="537">
+        </a>
         <div class="proj-body">
           <span class="flag">Live workflow</span>
           <h3>AI Receptionist</h3>
