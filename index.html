@@ -241,6 +241,25 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   box-shadow:inset 0 0 60px rgba(110,231,224,.14);
 }
 
+/* ---------- workflow diagram, in place of a screenshot ---------- */
+#automation{padding:0 0 40px}
+.flow-shot{
+  display:grid;place-items:center;padding:22px;
+  background:radial-gradient(120% 100% at 30% 0%,rgba(167,139,250,.16),rgba(5,6,10,.9) 70%);
+}
+.flow{width:100%;height:auto;max-height:100%}
+.fl-line path{fill:none;stroke:rgba(201,207,222,.32);stroke-width:1.5}
+.fl-node rect{fill:rgba(201,207,222,.05);stroke:var(--edge);stroke-width:1}
+.fl-node text{
+  fill:rgba(201,207,222,.78);font-family:'JetBrains Mono',monospace;font-size:12px;
+  letter-spacing:.06em;text-anchor:middle;
+}
+.fl-node--alt rect{stroke:rgba(167,139,250,.4)}
+.fl-node--tool rect{stroke:rgba(245,201,123,.34);fill:rgba(245,201,123,.05)}
+.fl-node--agent rect{stroke:rgba(110,231,224,.5);fill:rgba(110,231,224,.07)}
+.fl-title{font-family:'Syne',sans-serif!important;font-size:22px!important;fill:#fff!important;font-weight:700}
+.fl-sub{font-size:11px!important;fill:rgba(201,207,222,.55)!important}
+
 /* live / source links inside each card */
 .proj-links{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
 .proj-links a{
@@ -380,10 +399,11 @@ footer{
   <div class="wrap">
     <div class="cap-head reveal">
       <h2>What you can see</h2>
-      <p class="eyebrow">Two ways in</p>
+      <p class="eyebrow">Three ways in</p>
     </div>
     <a class="cap-row reveal" href="#projects"><span class="num">01</span><span class="name">Websites</span><span class="note">Brand sites, storefronts and launches</span></a>
-    <a class="cap-row reveal" href="cv.html"><span class="num">02</span><span class="name">Animated CV</span><span class="note">The full background, as a page you scroll</span></a>
+    <a class="cap-row reveal" href="#automation"><span class="num">02</span><span class="name">AI automation workflows</span><span class="note">Agents that answer, qualify and log on their own</span></a>
+    <a class="cap-row reveal" href="cv.html"><span class="num">03</span><span class="name">Animated CV</span><span class="note">The full background, as a page you scroll</span></a>
   </div>
 </section>
 
@@ -444,6 +464,74 @@ footer{
         </div>
       </article>
 
+    </div>
+  </div>
+</section>
+
+<section id="automation">
+  <div class="wrap">
+    <p class="eyebrow reveal">Selected automations</p>
+    <h2 class="cv-title reveal">AI automation<br>workflows</h2>
+
+    <div class="proj-grid">
+      <article class="proj proj--feature">
+        <!-- No screenshot: this has no front end. The diagram is the product,
+             so the card shows the actual shape of the workflow instead of
+             dressing an automation up as a website. -->
+        <div class="proj-shot flow-shot" aria-hidden="true">
+          <svg class="flow" viewBox="0 0 640 400" role="img">
+            <defs>
+              <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5"
+                      markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="rgba(201,207,222,.45)"/>
+              </marker>
+            </defs>
+            <g class="fl-line" marker-end="url(#arw)">
+              <path d="M118 92 H250"/>
+              <path d="M320 128 V196"/>
+              <path d="M392 212 H470"/>
+              <path d="M392 252 H470"/>
+              <path d="M392 292 H470"/>
+              <path d="M320 328 V368"/>
+            </g>
+            <g class="fl-node">
+              <rect x="18" y="70" width="100" height="44" rx="22"/>
+              <text x="68" y="97">Message in</text>
+            </g>
+            <g class="fl-node fl-node--alt">
+              <rect x="250" y="70" width="140" height="44" rx="12"/>
+              <text x="320" y="97">Is it text?</text>
+            </g>
+            <g class="fl-node fl-node--agent">
+              <rect x="228" y="196" width="184" height="132" rx="16"/>
+              <text x="320" y="238" class="fl-title">AI agent</text>
+              <text x="320" y="268" class="fl-sub">Gemini Flash-Lite</text>
+              <text x="320" y="294" class="fl-sub">memory per contact</text>
+            </g>
+            <g class="fl-node fl-node--tool">
+              <rect x="470" y="194" width="152" height="36" rx="18"/>
+              <text x="546" y="217">Send portfolio</text>
+              <rect x="470" y="234" width="152" height="36" rx="18"/>
+              <text x="546" y="257">Log lead → Sheets</text>
+              <rect x="470" y="274" width="152" height="36" rx="18"/>
+              <text x="546" y="297">Notify me</text>
+            </g>
+            <g class="fl-node">
+              <rect x="248" y="368" width="144" height="30" rx="15"/>
+              <text x="320" y="388">Reply, unprompted</text>
+            </g>
+          </svg>
+        </div>
+        <div class="proj-body">
+          <span class="flag">Live workflow</span>
+          <h3>AI Receptionist</h3>
+          <p>An n8n agent that handles first contact so I do not have to. It answers questions about services and turnaround, sends the portfolio on request, and qualifies a lead one question at a time — name, brand, service, scope, budget, timeline — never guessing an answer it was not given. Complete leads are appended to a Google Sheet and pushed to me as an alert, and the reply goes back on its own. Memory is keyed per contact, so a conversation held over six messages stays one conversation.</p>
+          <div class="tags"><span class="tag">n8n</span><span class="tag">AI agent</span><span class="tag">Gemini</span><span class="tag">Telegram API</span><span class="tag">Google Sheets</span></div>
+          <div class="proj-links">
+            <a href="https://github.com/yvssen-ai/AI-WhatsApp-Receptionist" target="_blank" rel="noopener">Source &amp; workflow JSON</a>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -798,8 +886,8 @@ if(!reduced){
 
   /* each section owns an accent colour — headings, needle and eyebrows shift to it */
   const ACCENTS = {
-    hero:'#6EE7E0', cap:'#F5C97B',
-    projects:'#7DE28B', cv:'#7AB8F5', contact:'#6EE7E0'
+    hero:'#6EE7E0', cap:'#F5C97B', projects:'#7DE28B',
+    automation:'#A78BFA', cv:'#7AB8F5', contact:'#6EE7E0'
   };
   Object.entries(ACCENTS).forEach(([id,color])=>{
     ScrollTrigger.create({
