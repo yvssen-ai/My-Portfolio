@@ -82,12 +82,23 @@ section{position:relative;z-index:2}
 }
 
 /* ---------- hero ---------- */
-#hero{min-height:100svh;display:grid;place-items:center;text-align:center;padding:120px 24px 80px}
+/* place-items centres the stack inside the PADDING box, so an uneven top and
+   bottom centre it off the middle of the screen. Keep the two equal. */
+#hero{min-height:100svh;display:grid;place-items:center;text-align:center;padding:88px 24px}
 .mark{
   position:fixed;top:26%;left:50%;z-index:40;pointer-events:none;
   width:120px;height:120px;border-radius:50%;
   display:grid;place-items:center;
+  /* centred on its own anchor point so script only ever moves the anchor.
+     GSAP restates this as xPercent/yPercent — it lives here as well so the
+     badge is still centred if the script never runs. */
+  transform:translate(-50%,-50%);
 }
+/* The slot the hero keeps for the badge: the 120px badge, then the gap to the
+   heading. The mark itself is fixed so it can dock into the corner on scroll,
+   so script parks it at the top of this slot — anchored to a share of the
+   viewport instead, it drifted against the heading, from nearly touching on a
+   phone to 100px adrift on a tall window. */
 .mark-space{height:164px}
 .mark::before{
   content:"";position:absolute;inset:0;border-radius:50%;
@@ -114,6 +125,11 @@ h1{
   font-family:'Syne',sans-serif;font-weight:800;
   font-size:clamp(2.6rem,9vw,6.4rem);line-height:.94;
   letter-spacing:-.03em;color:#fff;text-transform:uppercase;
+  /* Tracking is added after the final glyph as well, so a centred line sits
+     half a letter-space off true centre — negative tracking pushes it right.
+     Handing the same amount back on the left lands the caps on the real
+     middle, and it scales with the heading because the unit is em. */
+  margin-left:-.03em;
 }
 h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero-sub{
@@ -123,6 +139,10 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
 .scroll-hint{
   margin-top:56px;font-family:'JetBrains Mono',monospace;font-size:10px;
   letter-spacing:.24em;text-transform:uppercase;color:rgba(201,207,222,.4);
+  /* Same half-a-letter-space correction as the heading, the other way round:
+     wide tracking pulled the word left of the hairline underneath it. Indent
+     rather than a margin, so the box — and the centred hairline — stay put. */
+  text-indent:.24em;
 }
 .scroll-hint::after{content:"";display:block;width:1px;height:44px;margin:14px auto 0;
   background:linear-gradient(var(--cyan),transparent);animation:drop 2.2s ease-in-out infinite}
@@ -147,6 +167,13 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   .scroll-hint{margin-top:36px}
   .scroll-hint::after{height:30px}
   #cap{padding:70px 0 96px}
+}
+/* A laptop screen is wide but short: at 768px and under, the full stack is
+   taller than the viewport and centring gives way to "sits below the nav and
+   runs off the bottom". Shortening the cue buys back the slack it needs. */
+@media(min-width:761px) and (max-height:780px){
+  .scroll-hint{margin-top:34px}
+  .scroll-hint::after{height:30px}
 }
 .cap-head{display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;justify-content:space-between;margin-bottom:48px}
 .cap-head h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,6vw,3.4rem);
@@ -378,6 +405,7 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
 #contact h2{
   font-family:'Syne',sans-serif;font-weight:800;text-transform:uppercase;
   font-size:clamp(2rem,8vw,5rem);line-height:.96;letter-spacing:-.03em;color:#fff;
+  margin-left:-.03em;   /* trailing-tracking correction, as in the hero */
 }
 .mail{
   display:inline-block;margin-top:34px;padding:16px 34px;border-radius:999px;
@@ -434,7 +462,7 @@ footer{
   <div>
     <div class="mark-space"></div>
     <h1><span class="scramble" data-text="Yassen's">Yassen's</span><br><span class="grad scramble" data-text="Portfolio">Portfolio</span></h1>
-    <p class="hero-sub"> Hello! I'm Yassen, I'm a student in the faculty of AI in AAST and this is my portfolio where you can see all my projects that i've done.</p>
+    <p class="hero-sub">Hello! I'm Yassen. I'm a student in the Faculty of AI at AAST, and this is my portfolio where you can see all the projects that I've done.</p>
     <p class="scroll-hint">Scroll</p>
   </div>
 </section>
@@ -659,6 +687,24 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* centre the fixed logo on its own anchor point so GSAP can move it freely */
 gsap.set('.mark',{xPercent:-50,yPercent:-50});
 
+/* The badge is fixed so it can dock into the corner on scroll, but at rest it
+   belongs in the slot the hero reserves for it. Park it at the top of that slot
+   and the gap to the heading is identical at every window size; the docking
+   tween below then measures its travel from the same number. */
+let markRest = innerHeight * .26;
+function placeMark(){
+  const mark = document.querySelector('.mark');
+  const slot = document.querySelector('.mark-space').getBoundingClientRect();
+  /* The badge is centred on its anchor, so the anchor drops half a badge below
+     the top of the slot. The badge then begins exactly where the hero's centred
+     stack begins — otherwise the stack is centred but the visible composition
+     sits low — and the slot's spare height becomes the gap to the heading. */
+  markRest = slot.top + (window.scrollY || 0) + mark.offsetHeight / 2;
+  gsap.set('.mark',{top:markRest});
+}
+placeMark();
+addEventListener('resize', placeMark);
+
 /* ---------- ambient field: drifting, rotating YS monograms ----------
    each mark is drawn once into an offscreen sprite (ring + glyph + glow),
    then blitted rotated — far cheaper than re-stroking text every frame.
@@ -859,6 +905,13 @@ const SKILLS = [
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* Re-park the badge whenever ScrollTrigger re-measures, and once Syne lands —
+   the heading changes size with the font, which moves the slot under it. */
+ScrollTrigger.addEventListener('refreshInit', placeMark);
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(()=>{ placeMark(); ScrollTrigger.refresh(); });
+}
+
 if(!reduced){
   /* logo mark is fixed — it docks into the top-left corner as the hero
      scrolls away and stays visible for the rest of the page.
@@ -874,7 +927,7 @@ if(!reduced){
   })
   .to('.mark',{
     x: () => 46 - innerWidth/2,
-    y: () => 104 - innerHeight*0.26,
+    y: () => 104 - markRest,
     scale:.34,
     ease:'none'
   },0)

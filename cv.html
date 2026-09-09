@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yassen Hassan — Animated CV</title>
-<meta name="description" content="The full background of Yassen Hassan — AI student, no-code and AI website builder, frontend developer based in Alexandria, Egypt.">
+<meta name="description" content="The full background of Yassen Hassan — junior full-stack web developer and AI automation builder. React, Next.js, TypeScript, Supabase and n8n. Third-year AI student at AASTMT, Alexandria.">
 
 <!-- Same share card as the portfolio: this page gets linked directly too. -->
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="Yassen Hassan">
 <meta property="og:title" content="Yassen Hassan — Animated CV">
-<meta property="og:description" content="AI student at AAST, no-code and AI website builder, frontend developer in Alexandria. The full background, as a page you scroll.">
+<meta property="og:description" content="Junior full-stack web developer and AI automation builder in Alexandria — React, Next.js, TypeScript, Supabase, n8n. The full background, as a page you scroll.">
 <meta property="og:url" content="https://my-portfolio-puce-delta-i5xysrwxle.vercel.app/cv.html">
 <meta property="og:image" content="https://my-portfolio-puce-delta-i5xysrwxle.vercel.app/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://my-portfolio-puce-delta-i5xysrwxle.vercel.app/assets/og-cover.jpg">
@@ -20,7 +20,7 @@
 <meta property="og:image:alt" content="The YS monogram, Yassen Hassan's mark, in a gradient ring on black.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Yassen Hassan — Animated CV">
-<meta name="twitter:description" content="AI student at AAST, no-code and AI website builder, frontend developer in Alexandria.">
+<meta name="twitter:description" content="Junior full-stack web developer and AI automation builder in Alexandria — React, Next.js, TypeScript, Supabase, n8n.">
 <meta name="twitter:image" content="https://my-portfolio-puce-delta-i5xysrwxle.vercel.app/assets/og-cover.jpg">
 <meta name="twitter:image:alt" content="The YS monogram, Yassen Hassan's mark, in a gradient ring on black.">
 
@@ -162,6 +162,11 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
 }
 .statement .w{color:rgba(201,207,222,.16);transition:color .3s}
 .statement .w.on{color:#fff}
+/* the fuller summary, under the statement the words light up one at a time */
+.sum-note{
+  margin-top:32px;max-width:64ch;font-size:.9rem;line-height:1.85;
+  color:rgba(201,207,222,.5);
+}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:64px}
 .stat{border-top:1px solid var(--edge);padding-top:18px}
 .stat b{
@@ -203,6 +208,56 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   background:rgba(201,207,222,.03);transition:.35s;
 }
 .chip:hover{border-color:rgba(110,231,224,.45);color:#fff;background:rgba(110,231,224,.07)}
+
+/* ---------- experience & projects ----------
+   one card shell for both: a role and its bullets, or a project and the
+   decisions behind it. Same hover as the skill cards, so the page reads as
+   one system rather than three. */
+#experience{padding:110px 0 90px}
+#projects{padding:0 0 110px}
+.entries{display:grid;gap:18px;max-width:940px}
+.entry{
+  border:1px solid var(--edge);border-radius:18px;padding:28px 26px 30px;
+  background:linear-gradient(160deg,rgba(110,231,224,.07),rgba(167,139,250,.03) 55%,transparent);
+  transition:border-color .45s,transform .55s cubic-bezier(.16,1,.3,1);
+}
+.entry:hover{border-color:rgba(110,231,224,.38);transform:translateY(-5px)}
+.entry-when{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--cyan);opacity:.85;line-height:1.7;
+}
+.entry h3{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.1rem,3.2vw,1.45rem);
+  color:#fff;letter-spacing:-.01em;line-height:1.25;margin-top:10px;
+}
+.entry-where{font-size:.82rem;color:rgba(201,207,222,.5);margin-top:7px;line-height:1.6}
+/* the two streams inside the freelance role — a label with a rule under it */
+.entry-stream{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(201,207,222,.42);
+  margin-top:28px;padding-bottom:10px;border-bottom:1px solid var(--edge);
+}
+.entry ul{list-style:none;margin-top:18px;display:grid;gap:12px}
+.entry li{
+  position:relative;padding-left:20px;max-width:80ch;
+  font-size:.84rem;line-height:1.72;color:rgba(201,207,222,.5);
+}
+/* a short rule rather than a bullet — the same language as the timeline spine */
+.entry li::before{
+  content:"";position:absolute;left:0;top:.74em;width:9px;height:1px;
+  background:var(--cyan);opacity:.6;
+}
+.entry li strong{font-weight:400;color:rgba(201,207,222,.86)}
+.entry-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.entry-links a{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;
+  text-transform:uppercase;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--edge);color:rgba(201,207,222,.7);
+  text-decoration:none;background:rgba(201,207,222,.03);transition:.35s;
+}
+.entry-links a:hover,.entry-links a:focus-visible{
+  border-color:rgba(110,231,224,.45);color:#fff;background:rgba(110,231,224,.07)
+}
 
 /* tools ticker */
 .ticker{margin-top:70px;overflow:hidden;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);padding:20px 0}
@@ -338,7 +393,7 @@ footer a:hover{color:var(--cyan)}
   <span class="rule"></span>
   <a href="#skills">Skills</a>
   <span class="rule"></span>
-  <a href="#education">Education</a>
+  <a href="#experience">Experience</a>
   <span class="rule"></span>
   <a href="#contact">Contact</a>
 </nav>
@@ -350,11 +405,12 @@ footer a:hover{color:var(--cyan)}
       <span class="scramble" data-text="Yassen">Yassen</span><br>
       <span class="grad scramble" data-text="Hassan">Hassan</span>
     </h1>
-    <p class="role reveal">No-code &amp; AI website builder, and frontend web developer. Artificial Intelligence student at AAST, building animated sites for real clients out of Alexandria.</p>
+    <p class="role reveal">Junior full-stack web developer, and AI &amp; business automation builder. Third-year Artificial Intelligence student at AASTMT, shipping production apps for real businesses out of Alexandria.</p>
     <div class="meta reveal">
       <span>Alexandria, Egypt</span>
       <a href="mailto:yassenhassan151@gmail.com">yassenhassan151@gmail.com</a>
       <a href="tel:+201228507157">+20 122 850 7157</a>
+      <a href="https://github.com/yvssen-ai" target="_blank" rel="noopener">github.com/yvssen-ai</a>
     </div>
     <p class="scroll-hint">Scroll</p>
   </div>
@@ -363,11 +419,12 @@ footer a:hover{color:var(--cyan)}
 <section id="summary">
   <div class="wrap">
     <p class="block-label reveal">Professional summary</p>
-    <p class="statement" id="statement">Artificial Intelligence student and freelance web builder, specialising in fast, animated, AI-optimised websites for brands — built entirely with no-code and AI-assisted tools, from concept through to deployment.</p>
+    <p class="statement" id="statement">Third-year Artificial Intelligence student, building and deploying production web applications for real businesses — and putting correctness and security in the database rather than trusting the browser.</p>
+    <p class="sum-note reveal">React, Next.js and TypeScript on the front. PostgreSQL schema design, server-side functions, row-level security and multi-tenant isolation on Supabase behind it, shipped on Vercel. Alongside that, AI and business process automation with n8n — including a live agent that qualifies inbound leads over Telegram and writes structured briefs to Google Sheets. Looking for a junior full-stack, web development or AI automation role in the UAE.</p>
     <div class="stats">
-      <div class="stat reveal"><b class="count" data-to="3">0</b><i>Client sites<br>in development</i></div>
+      <div class="stat reveal"><b class="count" data-to="18">0</b><i>Months building<br>for real clients</i></div>
       <div class="stat reveal"><b class="count" data-to="3">0</b><i>Year of the<br>AI degree</i></div>
-      <div class="stat reveal"><b class="count" data-to="2">0</b><i>Languages<br>spoken fluently</i></div>
+      <div class="stat reveal"><b class="count" data-to="3">0</b><i>Production apps<br>live in the wild</i></div>
     </div>
   </div>
 </section>
@@ -380,62 +437,83 @@ footer a:hover{color:var(--cyan)}
     <div class="skill-grid">
       <article class="skill reveal">
         <p class="n">01</p>
-        <h3>AI &amp; no-code development</h3>
+        <h3>Frontend development</h3>
         <div class="chips">
-          <span class="chip">Bolt.new</span><span class="chip">v0.dev</span><span class="chip">Cursor</span>
-          <span class="chip">AI-assisted coding</span><span class="chip">AI automation workflows</span>
+          <span class="chip">React</span><span class="chip">Next.js</span><span class="chip">TypeScript</span>
+          <span class="chip">JavaScript ES6+</span><span class="chip">Vite</span>
+          <span class="chip">HTML5</span><span class="chip">CSS3</span>
+          <span class="chip">Responsive UI/UX</span><span class="chip">PWA</span>
+          <span class="chip">GSAP / ScrollTrigger</span><span class="chip">Three.js</span><span class="chip">Lottie</span>
         </div>
       </article>
 
       <article class="skill reveal">
         <p class="n">02</p>
-        <h3>Frontend &amp; animation</h3>
+        <h3>Backend, databases &amp; APIs</h3>
         <div class="chips">
-          <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
-          <span class="chip">GSAP</span><span class="chip">Three.js</span>
-          <span class="chip">LottieFiles</span><span class="chip">Responsive UI/UX</span>
-        </div>
-      </article>
-
-      <article class="skill reveal">
-        <p class="n">03</p>
-        <h3>Backend &amp; full stack</h3>
-        <div class="chips">
-          <span class="chip">Supabase</span><span class="chip">PostgreSQL</span>
-          <span class="chip">Row-level security</span><span class="chip">SQL functions</span>
-          <span class="chip">REST APIs</span><span class="chip">Webhooks</span>
+          <span class="chip">Supabase</span><span class="chip">PostgreSQL</span><span class="chip">SQL</span>
+          <span class="chip">Schema design</span><span class="chip">Server-side functions</span>
+          <span class="chip">Row-level security</span><span class="chip">Multi-tenant isolation</span>
+          <span class="chip">Composite foreign keys</span><span class="chip">REST APIs</span>
+          <span class="chip">Webhooks</span><span class="chip">Node.js</span><span class="chip">Python</span>
           <span class="chip">Payment integration</span>
         </div>
       </article>
 
       <article class="skill reveal">
-        <p class="n">04</p>
-        <h3>Design tools</h3>
+        <p class="n">03</p>
+        <h3>AI &amp; business automation</h3>
         <div class="chips">
-          <span class="chip">Figma</span><span class="chip">Canva</span>
-          <span class="chip">Adobe Photoshop</span><span class="chip">Adobe Illustrator</span>
+          <span class="chip">n8n</span><span class="chip">AI agents</span>
+          <span class="chip">Google Gemini API</span><span class="chip">Telegram Bot API</span>
+          <span class="chip">Google Sheets</span><span class="chip">Webhook handling</span>
+          <span class="chip">Scheduled workflows</span><span class="chip">Conversation state</span>
+          <span class="chip">Data mapping</span><span class="chip">Gmail automation</span>
+          <span class="chip">Slack notifications</span>
+        </div>
+      </article>
+
+      <article class="skill reveal">
+        <p class="n">04</p>
+        <h3>Development tools</h3>
+        <div class="chips">
+          <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Cursor</span>
+          <span class="chip">v0.dev</span><span class="chip">Bolt.new</span>
+          <span class="chip">Browser dev tools</span>
         </div>
       </article>
 
       <article class="skill reveal">
         <p class="n">05</p>
-        <h3>Hosting &amp; deployment</h3>
+        <h3>Deployment &amp; hosting</h3>
         <div class="chips">
-          <span class="chip">Vercel</span><span class="chip">Netlify</span><span class="chip">GitHub</span>
+          <span class="chip">Vercel</span><span class="chip">Netlify</span>
+          <span class="chip">Environment config</span><span class="chip">Domains &amp; DNS</span>
+          <span class="chip">Production debugging</span>
         </div>
       </article>
 
       <article class="skill reveal">
         <p class="n">06</p>
-        <h3>Client &amp; workflow</h3>
+        <h3>CMS &amp; platforms</h3>
         <div class="chips">
-          <span class="chip">Wave</span><span class="chip">Loom</span><span class="chip">Calendly</span>
-          <span class="chip">End-to-end ownership</span>
+          <span class="chip">WordPress</span><span class="chip">Gutenberg block themes</span>
+          <span class="chip">Site Editor</span><span class="chip">Custom block markup</span>
         </div>
       </article>
 
       <article class="skill reveal">
         <p class="n">07</p>
+        <h3>Design</h3>
+        <div class="chips">
+          <span class="chip">Figma</span><span class="chip">Canva</span>
+          <span class="chip">Adobe Photoshop</span><span class="chip">Adobe Illustrator</span>
+          <span class="chip">Brand identity</span><span class="chip">Typography</span>
+        </div>
+      </article>
+
+      <article class="skill reveal">
+        <p class="n">08</p>
         <h3>Languages</h3>
         <div class="chips">
           <span class="chip">Arabic — Native</span><span class="chip">English — Fluent</span>
@@ -449,6 +527,101 @@ footer a:hover{color:var(--cyan)}
   </div>
 </section>
 
+<section id="experience">
+  <div class="wrap">
+    <p class="eyebrow reveal">Where it has been used</p>
+    <h2 class="big reveal">Experience</h2>
+
+    <div class="entries">
+      <article class="entry reveal">
+        <p class="entry-when">7 / 2026 — Founder</p>
+        <h3>NEXERA — full-stack development &amp; AI automation</h3>
+        <p class="entry-where">Alexandria, Egypt</p>
+        <ul>
+          <li>Founded and lead NEXERA as a digital solutions initiative, giving businesses modern web applications, e-commerce platforms, AI-powered automation and custom digital systems.</li>
+          <li>Own solution development end to end — frontend implementation, third-party integrations, deployment and workflow automation — leaning on AI-assisted development and modern web tooling.</li>
+          <li>Handle client acquisition and scoping directly, turning business needs into technical specifications and delivering the system that answers them.</li>
+        </ul>
+      </article>
+
+      <article class="entry reveal">
+        <p class="entry-when">2 / 2025 — Present · 1.5 years · Remote</p>
+        <h3>Junior full-stack web developer &amp; automation developer</h3>
+        <p class="entry-where">Freelance (YS Studios) — Alexandria, Egypt. Client projects across Egypt and the Gulf.</p>
+
+        <p class="entry-stream">Web development</p>
+        <ul>
+          <li>Built and deployed responsive web applications for caf&eacute;, bakery, retail and bespoke-manufacturing clients, owning delivery from requirements gathering through production release and post-launch support.</li>
+          <li>Built the frontends in React, Next.js, TypeScript and Vite — responsive layouts, progressive web app behaviour, and scroll-driven motion with GSAP/ScrollTrigger, Three.js and Lottie.</li>
+          <li>Designed PostgreSQL data layers on Supabase — relational schema design, server-side functions, row-level security policies and multi-tenant isolation — <strong>treating the database as the security boundary rather than trusting client-side validation</strong>.</li>
+          <li>Eliminated a class of billing defects across projects by storing every monetary value as integer minor units and re-pricing each transaction server-side from the catalogue, so a client-submitted price is never trusted.</li>
+          <li>Integrated REST APIs, webhooks and third-party services to connect the applications to external business systems and automation workflows.</li>
+          <li>Deployed and maintained production applications on Vercel and Netlify — builds, environments and custom domains — with source control and revision history in Git and GitHub.</li>
+          <li>Extended a proprietary WordPress block-theme platform by reading its architecture and delivering custom Gutenberg block markup, reusable CSS kits and code-injection modules, meeting the design specification despite the platform's plugin restrictions.</li>
+          <li>Used AI-assisted tools — Cursor, v0.dev, Bolt.new — to shorten build cycles while keeping full ownership of architecture, code review, refactoring and debugging.</li>
+        </ul>
+
+        <p class="entry-stream">AI &amp; business automation</p>
+        <ul>
+          <li>Built and deployed an AI lead-qualification workflow on n8n and the Telegram Bot API: multi-turn client conversations, qualification, structured capture into Google Sheets and real-time notifications, so the first response is immediate.</li>
+          <li>Deployed an n8n workflow against a live Supabase production database that aggregates daily order and revenue data and sends a scheduled report, <strong>replacing a manual reconciliation</strong>.</li>
+          <li>Engineered trigger-based and scheduled workflows combining database queries, REST APIs, authenticated credentials, conditional logic, per-contact state and cross-system data mapping.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <p class="eyebrow reveal">What came out of it</p>
+    <h2 class="big reveal">Selected<br>projects</h2>
+
+    <div class="entries">
+      <article class="entry reveal">
+        <p class="entry-when">React &middot; Vite &middot; GSAP &middot; Supabase &middot; PostgreSQL &middot; RLS</p>
+        <h3>Solis — caf&eacute; &amp; bakery ordering platform</h3>
+        <ul>
+          <li>Production ordering site serving the full menu out of PostgreSQL, with a React/Vite frontend and GSAP motion.</li>
+          <li>Checkout goes through a single server-side function: the browser submits item IDs and quantities and nothing else, and every price is resolved on the backend, so <strong>a manipulated price has nowhere to land</strong>.</li>
+          <li>Order tracking works without an account, through receipt tokens, and all currency is stored as integer piastres so rounding errors cannot accumulate.</li>
+        </ul>
+        <div class="entry-links">
+          <a href="https://solis-azure.vercel.app" target="_blank" rel="noopener">Live site</a>
+          <a href="https://github.com/yvssen-ai/Solis" target="_blank" rel="noopener">Source</a>
+        </div>
+      </article>
+
+      <article class="entry reveal">
+        <p class="entry-when">Next.js &middot; TypeScript &middot; Supabase &middot; PostgreSQL &middot; RLS &middot; PWA</p>
+        <h3>Tailor Workshop — bespoke tailoring management system</h3>
+        <ul>
+          <li>An iPad-first progressive web app for a bespoke tailoring workshop: customer records, measurement profiles, garment configuration, B2B pricing, and production tracked through cutting, assembly, ready and store with QR and NFC.</li>
+          <li>The database is the security boundary — order tables are read-only to every client, and each mutation passes through a function that re-derives the tenant from the auth token and re-prices from the catalogue, so <strong>a client-supplied price is simply ignored</strong>.</li>
+          <li>Composite foreign keys mean a row cannot reference another workshop's data even with the row-level security policies switched off, and money is stored as integer minor units rather than floats.</li>
+        </ul>
+        <div class="entry-links">
+          <a href="https://tailor-yassen.vercel.app" target="_blank" rel="noopener">Live site</a>
+          <a href="https://github.com/yvssen-ai/Tailor" target="_blank" rel="noopener">Source</a>
+        </div>
+      </article>
+
+      <article class="entry reveal">
+        <p class="entry-when">n8n &middot; AI agent &middot; Google Gemini &middot; Telegram Bot API &middot; Google Sheets</p>
+        <h3>AI Receptionist — automated lead qualification agent</h3>
+        <ul>
+          <li>A live conversational agent that answers scoped questions on services and timelines, shares portfolio links, and collects a project brief one field at a time — name, brand, service, scope, budget, timeline.</li>
+          <li><strong>Grounded strictly in the context it is given</strong>, so it never invents an answer, with per-contact memory that keeps a conversation spread over many messages as a single session.</li>
+          <li>A finished brief lands in Google Sheets on its own and sends a real-time notification, so the first reply a client gets is instant.</li>
+        </ul>
+        <div class="entry-links">
+          <a href="https://github.com/yvssen-ai/AI-WhatsApp-Receptionist" target="_blank" rel="noopener">Source</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section id="education">
   <div class="wrap">
     <p class="eyebrow reveal">Where it comes from</p>
@@ -456,22 +629,16 @@ footer a:hover{color:var(--cyan)}
 
     <div class="tl">
       <div class="tl-item reveal">
-        <p class="tl-when">In progress — 3rd year</p>
+        <p class="tl-when">In progress — 3rd year &middot; graduating 2028</p>
         <p class="tl-what">B.Sc. Artificial Intelligence</p>
-        <p class="tl-where">Faculty of Artificial Intelligence, AAST — Egypt</p>
-        <p class="tl-desc">Arab Academy for Science, Technology &amp; Maritime Transport. Studying AI while building client websites alongside it — self-taught on the web side, and driven by hands-on execution over theory.</p>
+        <p class="tl-where">Arab Academy for Science, Technology &amp; Maritime Transport — Alamein, Egypt</p>
+        <p class="tl-desc">Relevant coursework: data structures and algorithms, machine learning, databases, object-oriented programming and software engineering — studied alongside building client applications, which is where most of the web side came from.</p>
       </div>
       <div class="tl-item reveal">
-        <p class="tl-when">Certification</p>
-        <p class="tl-what">Full robotics course — AAST</p>
-        <p class="tl-where">Arab Academy for Science, Technology &amp; Maritime Transport</p>
-        <p class="tl-desc">A complete course split into three parts — programming, mechanical and electrical — finishing with a build project: a fireman robot. I entered it into RoboCup Junior and took <strong>2nd place nationally in Egypt</strong>.</p>
-      </div>
-      <div class="tl-item reveal">
-        <p class="tl-when">Further training</p>
-        <p class="tl-what">Multimedia Diploma</p>
-        <p class="tl-where">Plus multiple English language courses</p>
-        <p class="tl-desc">A foundation in design software that feeds straight into the visual side of the work.</p>
+        <p class="tl-when">2018 — Achievement</p>
+        <p class="tl-what">2nd place — RoboCup Junior Egypt</p>
+        <p class="tl-where">Following a specialised robotics training programme at AAST</p>
+        <p class="tl-desc">A course split into programming, mechanical and electrical parts, finishing with a build project — a fireman robot, which I entered into RoboCup Junior and took <strong>2nd place nationally in Egypt</strong>.</p>
       </div>
     </div>
   </div>
@@ -484,6 +651,7 @@ footer a:hover{color:var(--cyan)}
     <div class="cta-row reveal">
       <a class="mail" href="mailto:yassenhassan151@gmail.com">yassenhassan151@gmail.com</a>
       <a class="mail mail--wa" href="https://wa.me/201228507157" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="mail" href="https://github.com/yvssen-ai" target="_blank" rel="noopener">GitHub</a>
       <a class="cv-dl" href="assets/Yassen-Hassan-CV.pdf" download="Yassen-Hassan-CV.pdf">Download CV (PDF)</a>
     </div>
 
@@ -644,8 +812,8 @@ statement.innerHTML = WORDS.map(w=>`<span class="w">${w}</span>`).join(' ');
 
 /* ---------- tools ticker content ---------- */
 (function(){
-  const TOOLS = ['Bolt.new','v0.dev','Cursor','GSAP','Three.js','LottieFiles','Figma','Canva',
-                 'Photoshop','Illustrator','Vercel','Netlify','GitHub'];
+  const TOOLS = ['React','Next.js','TypeScript','Supabase','PostgreSQL','n8n','GSAP','Three.js',
+                 'Vite','Node.js','Python','Vercel','Netlify','Git','Cursor','Figma'];
   const row = document.getElementById('ticker');
   // two passes so the loop can wrap seamlessly
   let html='';
@@ -769,6 +937,7 @@ if(!reduced){
   /* each section owns an accent colour */
   const ACCENTS = {
     top:'#6EE7E0', summary:'#A78BFA', skills:'#F5C97B',
+    experience:'#6EE7E0', projects:'#A78BFA',
     education:'#7AB8F5', contact:'#6EE7E0'
   };
   Object.entries(ACCENTS).forEach(([id,color])=>{
