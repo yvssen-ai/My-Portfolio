@@ -258,6 +258,14 @@ h1 .grad{background:var(--iris);-webkit-background-clip:text;background-clip:tex
   background:linear-gradient(110deg,#F5C97B 0%,#E9A86F 100%);
   box-shadow:0 0 22px rgba(245,201,123,.24);
 }
+/* A third fill, quieter than either. Tailor is finished work rather than a
+   status, so its pill carries context: it is the reason the card's shot is a
+   sign-in screen instead of a storefront, and it should not compete with the
+   two pills that do mark status. */
+.flag--private{
+  background:none;color:rgba(201,207,222,.7);
+  border:1px solid var(--edge);box-shadow:none;
+}
 .proj--feature{border-color:rgba(110,231,224,.3)}
 .proj--feature .proj-shot::after{
   content:"";position:absolute;inset:0;pointer-events:none;
@@ -496,6 +504,55 @@ footer{
           <div class="proj-links">
             <a href="https://gorilla-ashy.vercel.app" target="_blank" rel="noopener">Live site</a>
             <a href="https://github.com/yvssen-ai/Gorilla" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <a class="proj-shot" href="https://nexeraa-hy2a.vercel.app" target="_blank" rel="noopener"
+           aria-label="Visit the NEXERA site">
+          <img src="assets/shots/nexeraa.jpg" alt="NEXERA homepage — the wordmark in white across a dark constellation field, above pills for web development, e-commerce, AI automation, marketing and branding." loading="lazy" width="1920" height="1200">
+        </a>
+        <div class="proj-body">
+          <h3>NEXERA</h3>
+          <p>A digital agency's site as one scroll-driven page. ScrollSmoother owns the scroll on pointer devices and hands it straight back on touch, so phones scroll natively instead of feeling laggy. The wordmark is vector geometry rather than a font or an image, which is what lets the intro wipe each letter and draw the chevron separately. Entrance animations start from a CSS pre-state set before first paint, so if the JavaScript never runs no content is left trapped invisible.</p>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">GSAP</span><span class="tag">ScrollSmoother</span></div>
+          <div class="proj-links">
+            <a href="https://nexeraa-hy2a.vercel.app" target="_blank" rel="noopener">Live site</a>
+            <a href="https://github.com/yvssen-ai/Nexeraa" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <a class="proj-shot" href="https://tailor-yassen.vercel.app" target="_blank" rel="noopener"
+           aria-label="Visit the Tailor Workshop sign-in page">
+          <img src="assets/shots/tailor.jpg" alt="Tailor Workshop sign-in — an email and password card headed Sign in to continue, on a pale grey page." loading="lazy" width="1920" height="1200">
+        </a>
+        <div class="proj-body">
+          <span class="flag flag--private">Private tool</span>
+          <h3>Tailor Workshop</h3>
+          <p>An iPad-first system for running a bespoke tailoring workshop: customers, dated measurement profiles, a garment configurator, B2B price lists, and the four-station production floor — Cutting, Assembly, Ready, Store — tracked by QR and NFC. The database is the security boundary rather than the app. The order tables are read-only to every client; every mutation goes through a function that re-derives the tenant from the token and re-prices from the catalogue, so a price sent by the client is ignored. Foreign keys are composite, which means a row cannot reference another workshop's row even with the policies switched off. Money is stored as integer minor units, never floats.</p>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Supabase</span><span class="tag">PostgreSQL</span><span class="tag">RLS</span><span class="tag">PWA</span></div>
+          <div class="proj-links">
+            <a href="https://tailor-yassen.vercel.app" target="_blank" rel="noopener">Sign-in page</a>
+            <a href="https://github.com/yvssen-ai/Tailor" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj proj--feature">
+        <a class="proj-shot" href="https://caliber7.vercel.app" target="_blank" rel="noopener"
+           aria-label="Visit the CALIBER7 site">
+          <img src="assets/shots/caliber7.jpg" alt="CALIBER7 homepage — an Omega Speedmaster Professional lit against black, beside a hero reading Assembled beyond time." loading="lazy" width="1920" height="1200">
+        </a>
+        <div class="proj-body">
+          <h3>CALIBER7</h3>
+          <p>An atelier of fine timepieces, built as one long scroll. No CSS framework — the design system is a small set of custom properties and one stylesheet per section. The viewing room is a loupe that magnifies the photograph under the pointer; it works out the photograph's cropped geometry in JavaScript rather than assuming the stage shares the photo's aspect ratio, so the lens always lands on the spot you are actually pointing at. A build script grades and re-encodes the photography to AVIF, WebP and JPEG and records each frame's intrinsic size and an inlined blur placeholder. Reduced motion switches off the smooth scroll, parallax, cursor and dial, and renders the exploded schematic finished instead of half-open.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">Vite</span><span class="tag">TypeScript</span><span class="tag">GSAP</span><span class="tag">Lenis</span><span class="tag">AVIF</span></div>
+          <div class="proj-links">
+            <a href="https://caliber7.vercel.app" target="_blank" rel="noopener">Live site</a>
+            <a href="https://github.com/yvssen-ai/caliber7" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
       </article>
